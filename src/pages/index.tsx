@@ -4,8 +4,10 @@ import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
 
 const inter = Inter({ subsets: ['latin'] });
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 export default function Home() {
+    const { data: session } = useSession();
     return (
         <>
             <Head>
@@ -21,7 +23,26 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main className={styles.main}>
-                <div>Hello World!</div>
+                <h1>Welcome - JoeDev</h1>
+                {session && session.user ? (
+                    <>
+                        <p>Signed in as {session.user.email}</p>
+                        {session.user.image && (
+                            <Image
+                                alt="img"
+                                src={session.user.image}
+                                width="100"
+                                height="100"
+                            ></Image>
+                        )}
+                        <button onClick={() => signOut()}>Sign out</button>
+                    </>
+                ) : (
+                    <>
+                        <p>Not signed in</p>
+                        <button onClick={() => signIn()}>Sign in</button>
+                    </>
+                )}
             </main>
         </>
     );
