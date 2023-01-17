@@ -5,6 +5,7 @@ import styles from '@/styles/Home.module.css';
 
 const inter = Inter({ subsets: ['latin'] });
 import { useSession, signIn, signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 export default function Home() {
     const { data: session } = useSession();
@@ -24,6 +25,7 @@ export default function Home() {
             </Head>
             <main className={styles.main}>
                 <h1>Welcome - JoeDev</h1>
+                <Link href="/dash">Go To a Super Secret Route!</Link>
                 {session && session.user ? (
                     <>
                         <p>Signed in as {session.user.email}</p>
