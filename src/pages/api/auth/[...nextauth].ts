@@ -7,9 +7,10 @@ import prisma from '../../../lib/prismadb';
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(prisma),
-    // pages: {
-    //     error: '/auth/error',
-    // },
+    pages: {
+        error: '/auth/error',
+        signIn: '/auth/login',
+    },
     // callbacks: {
     //     signIn({ user, account }) {
     //         const isAllowedToSignIn = true;
@@ -29,7 +30,8 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.GOOGLE_SECRET,
         }),
         CredentialsProvider({
-            name: 'Credentials',
+            name: 'credentials',
+            id: 'credentials',
             credentials: {
                 email: {
                     label: 'Email',
