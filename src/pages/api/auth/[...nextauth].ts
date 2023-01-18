@@ -4,10 +4,9 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 // Prisma
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from '../../../lib/prismadb';
-import Email from 'next-auth/providers/email';
 
 export const authOptions: NextAuthOptions = {
-    adapter: PrismaAdapter(prisma),
+    // adapter: PrismaAdapter(prisma),
     // pages: {
     //     error: '/auth/error',
     // },
@@ -45,6 +44,7 @@ export const authOptions: NextAuthOptions = {
                         email: credentails?.email,
                     },
                 });
+
                 if (!usr) return null;
                 // if (usr.password !== credentails?.password) return null;
 
