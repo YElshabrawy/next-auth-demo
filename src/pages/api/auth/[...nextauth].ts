@@ -6,7 +6,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import prisma from '../../../lib/prismadb';
 
 export const authOptions: NextAuthOptions = {
-    // adapter: PrismaAdapter(prisma),
+    adapter: PrismaAdapter(prisma),
     // pages: {
     //     error: '/auth/error',
     // },
@@ -22,6 +22,7 @@ export const authOptions: NextAuthOptions = {
     //         return isAllowedToSignIn;
     //     },
     // },
+    session: { strategy: 'jwt' },
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_ID,
@@ -37,6 +38,7 @@ export const authOptions: NextAuthOptions = {
                 },
                 password: { label: 'Password', type: 'password' },
             },
+
             authorize: async (credentails, req) => {
                 // Check if user exists in database
                 const usr = await prisma.user.findFirst({
