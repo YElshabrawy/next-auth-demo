@@ -4,10 +4,17 @@ import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 
 export default function Login() {
     const router = useRouter();
+    const { data: session, status } = useSession();
+    const errMsg = router.query.error;
+
+    // If authed go home
+    if (status === 'authenticated') {
+        router.push('/');
+    }
 
     // Formik
     const formik = useFormik({
@@ -43,7 +50,17 @@ export default function Login() {
             </Head>
             <main className={styles.main}>
                 <h1>JoeDev - Login</h1>
-                <button>Sign In with Google</button>
+                {errMsg && <h3>Error: {errMsg}</h3>}
+                <button
+                    onClick={() =>
+                        signIn('google', {
+                            callbackUrl:
+                                (router.query.callbackUrl as string) ?? '/',
+                        })
+                    }
+                >
+                    Sign In with Google
+                </button>
                 <p>- Sign in with Email -</p>
                 <form onSubmit={formik.handleSubmit}>
                     <label htmlFor="email">Email</label>
